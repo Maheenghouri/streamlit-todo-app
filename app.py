@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Function to set background image with a soft overlay
+
 def add_bg():
     bg_img = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
     st.markdown(
@@ -46,12 +46,12 @@ add_bg()
 
 st.title("📝 TO-DO LIST ")
 
-# Initialize session state variables
+
 if "tasks" not in st.session_state:
     st.session_state.tasks = []
 
 if "edit_index" not in st.session_state:
-    st.session_state.edit_index = None  # Store the index of the task being edited
+    st.session_state.edit_index = None 
 
 st.sidebar.header("💼 WorkSpace")
 new_task = st.sidebar.text_input("➕ Add Task:", placeholder="Type your task here...")
@@ -72,22 +72,19 @@ else:
     for index, task in enumerate(st.session_state.tasks):
         col1, col2, col3 = st.columns([0.7, 0.15, 0.15])
 
-        # Task completion checkbox
+      
         completed = col1.checkbox(f" {task['task']}", task["completed"], key=f"check_{index}")
         if completed != task["completed"]:
             st.session_state.tasks[index]["completed"] = completed
 
-        # Edit button sets edit_index
+     
         if col2.button("✏ Edit", key=f"edit_{index}"):
             st.session_state.edit_index = index
-            st.rerun()  # ✅ Use st.rerun() instead of experimental_rerun
-
-        # Delete task
+            st.rerun() 
+        
         if col3.button("🗑 Remove", key=f"delete_{index}"):
             del st.session_state.tasks[index]
-            st.rerun()  # ✅ Use st.rerun() instead of experimental_rerun
-
-# Show edit input only when a task is being edited
+            st.rerun()  
 if st.session_state.edit_index is not None:
     edit_index = st.session_state.edit_index
     edited_task = st.text_input("Edit Task", st.session_state.tasks[edit_index]["task"], key="edit_task_input")
@@ -96,17 +93,15 @@ if st.session_state.edit_index is not None:
     
     if save_col.button("💾 Save", key="save_task"):
         if edited_task.strip():
-            st.session_state.tasks[edit_index]["task"] = edited_task  # Update task
-            st.session_state.edit_index = None  # Exit edit mode
-            st.rerun()  # ✅ Use st.rerun() instead of experimental_rerun
-
+            st.session_state.tasks[edit_index]["task"] = edited_task  
+            st.session_state.edit_index = None   
+            st.rerun()  
     if cancel_col.button("❌ Cancel", key="cancel_edit"):
-        st.session_state.edit_index = None  # Exit edit mode
-        st.rerun()  # ✅ Use st.rerun() instead of experimental_rerun
-
+        st.session_state.edit_index = None   
+        st.rerun() 
 if st.button("🚮 Clear All Tasks"):
     st.session_state.tasks = []
-    st.session_state.edit_index = None  # Reset edit mode
+    st.session_state.edit_index = None   
     st.success("All tasks deleted successfully!")
 
 st.markdown("</div>", unsafe_allow_html=True)
